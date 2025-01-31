@@ -3,7 +3,7 @@ import SignUpForm from './playgrounds/03-signup-form';
 import SignInForm from './playgrounds/04-signin-form';
 
 function Playground() {
-  const [view, setView] = useState(true);
+  const [view, setView] = useState(false);
 
   return (
     <div className="Playground">

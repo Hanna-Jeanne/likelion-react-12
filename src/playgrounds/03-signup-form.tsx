@@ -5,7 +5,6 @@ interface ResponseDataType {
   name: string;
   email: string;
   profileImage: string;
-  message?: string;
 }
 
 const ENDPOINT = 'http://localhost:4000/api/signup';
@@ -26,7 +25,7 @@ function SignUpForm() {
     null
   );
 
-  // const [error, setError] = useState<null | Error>(null);
+  const [error, setError] = useState<null | Error>(null);
 
   // React 19 <form> 요소 action 속성에 핸들러 연결
   const handleSubmitAction = async (formData: FormData) => {
@@ -35,10 +34,16 @@ function SignUpForm() {
         method: 'POST',
         body: formData,
       });
+
       const jsonData = await response.json();
+
+      if (response.status >= 400) {
+        throw new Error((jsonData as { message: string }).message);
+      }
+
       setResponseData(jsonData as ResponseDataType);
-    } catch {
-      // setError(error as Error);
+    } catch (error) {
+      setError(error as Error);
     }
   };
 
@@ -88,14 +93,23 @@ function SignUpForm() {
 
   // 조건부 렌더링
   // 오류가 발생한 경우 오류 메시지 출력 (UI 화면)
-  // if (error) {
-  //   return (
-  //     <div role="alert">
-  //       <h2>{error.name}</h2>
-  //       <p>{error.message}</p>
-  //     </div>
-  //   );
-  // }
+  if (error) {
+    return (
+      <div
+        role="alert"
+        style={{
+          color: '#dc362f',
+          display: 'flex',
+          flexFlow: 'column',
+          gap: 0,
+          marginBlock: 20,
+        }}
+      >
+        <h2 style={{ margin: 0 }}>{error.name}</h2>
+        <p style={{ margin: 0 }}>{error.message}</p>
+      </div>
+    );
+  }
 
   // 회원가입 이후 가입 사용자 정보 (UI 화면)
   if (responseData) {
@@ -103,19 +117,13 @@ function SignUpForm() {
       <article className="UserProfile" id={responseData.id}>
         <h2 className="UserProfile--name">{responseData.name}</h2>
 
-        {!responseData.message ? (
-          <>
-            <img
-              src={`http://localhost:4000${responseData.profileImage}`}
-              alt=""
-              width={64}
-              height={64}
-            />
-            <p>{responseData.email}</p>
-          </>
-        ) : (
-          <p>{responseData.message}</p>
-        )}
+        <img
+          src={`http://localhost:4000${responseData.profileImage}`}
+          alt=""
+          width={64}
+          height={64}
+        />
+        <p>{responseData.email}</p>
       </article>
     );
   }
