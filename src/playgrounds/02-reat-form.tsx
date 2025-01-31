@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import FormInput from '@/components/form-input';
-import FormRadio from '@/components/form-radio';
 
 const formStyles = {
   display: 'flex',
@@ -13,17 +12,39 @@ function ReactForm() {
   const [age, setAge] = useState<number>(22);
   const [color, setColor] = useState<string>('#2483DB');
   const [limitAge, setLimitAge] = useState<number>(40);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const handleUploadProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+    if (target.files && target.files.length > 0) {
+      const file = target.files.item(0);
+      if (file) {
+        setProfileImage(URL.createObjectURL(file));
+      }
+    }
+  };
+
+  const [photos, setPhotos] = useState<File[]>([]);
+  const handleUploadPhotos = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+    console.log(fileList);
+
+    if (fileList && fileList.length > 0) {
+      const fileArray: File[] = [];
+      for (let i = 0, l = fileList.length; i < l; ++i) {
+        const file = fileList.item(i);
+        if (file) fileArray.push(file);
+      }
+      setPhotos(fileArray);
+    }
+  };
 
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
       <form style={formStyles}>
         {/* type=text */}
-        <FormInput
-          // type="text"
-          label="이름"
-          placeholder="박수무당"
-        />
+        <FormInput label="이름" placeholder="박수무당" />
 
         {/* type=password */}
         <FormInput
@@ -78,30 +99,156 @@ function ReactForm() {
         </div>
 
         {/* type=file */}
-        <FormInput label="프로필" type="file" accept="image/*" multiple />
+        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
+          <FormInput
+            type="file"
+            label="포토"
+            accept=".jpg, .jpeg, .png"
+            multiple
+            onChange={handleUploadPhotos}
+          />
+          {photos.length > 0
+            ? photos.map((file) => {
+                const { name } = file;
+                return (
+                  <img
+                    key={name}
+                    style={{ marginBlockStart: 8 }}
+                    src={URL.createObjectURL(file)}
+                    alt={name}
+                    width={68}
+                    height={68}
+                  />
+                );
+              })
+            : null}
+        </div>
+
+        {/* type=file (1) */}
+        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
+          <FormInput
+            label="프로필"
+            type="file"
+            accept="image/*"
+            onChange={handleUploadProfile}
+            // onChange={(e) => {
+            //   const { files } = e.target;
+
+            //   if (files && files.length > 0) {
+            //     const [file] = files;
+            //     const profileImagePath = URL.createObjectURL(file);
+            //     setProfileImage(profileImagePath);
+            //   }
+            // }}
+          />
+          {/* 업로드 할 이미지 표시 */}
+          {profileImage && (
+            <img
+              style={{ marginBlockStart: 8 }}
+              src={profileImage}
+              alt="업로드 할 프로필"
+              width={100}
+              height={100}
+            />
+          )}
+        </div>
 
         {/* type=radio */}
         <fieldset>
           <legend>성별</legend>
-          <FormRadio
+          <FormInput
+            type="radio"
             label="남성"
-            value="남성"
             name="usergender"
+            value="male"
             defaultChecked
           />
-          <FormRadio label="여성" value="여성" name="usergender" />
+          <FormInput
+            type="radio"
+            label="여성"
+            name="usergender"
+            value="female"
+          />
         </fieldset>
 
         {/* type=checkbox */}
+        <fieldset>
+          <legend>취미</legend>
+          <FormInput
+            type="checkbox"
+            label="공부"
+            name="userhobby"
+            value="study"
+            defaultChecked
+          />
+          <FormInput
+            type="checkbox"
+            label="운동"
+            name="userhobby"
+            value="helth"
+          />
+          <FormInput
+            type="checkbox"
+            label="영화 감상"
+            name="userhobby"
+            value="watch-a-movie"
+          />
+        </fieldset>
 
         {/* type=date */}
+        <FormInput type="date" label="여행 날짜" />
 
         {/* type=datetime-local */}
+        <FormInput type="datetime-local" label="비행기 출국 시간" />
 
         <button type="submit">제출</button>
+        <button type="reset">초기화</button>
+        {/* <input type="reset" value="초기화" /> */}
       </form>
     </div>
   );
 }
 
 export default ReactForm;
+
+{
+  /* <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
+  <FormInput
+    label="프로필"
+    type="file"
+    accept="image/*"
+    // multiple
+    onChange={(e) => {
+      const { target: element } = e;
+      if (element.files && element.files.length > 0) {
+        const [profileImage] = element.files;
+        // console.log(profileImage); // File
+        // 명령형 프로그래밍
+        const profileImagePath = URL.createObjectURL(profileImage);
+        const parentElement = element.parentElement!;
+        parentElement.querySelector('img')?.remove();
+        const imgElement = document.createElement('img');
+        imgElement.setAttribute('src', profileImagePath);
+        imgElement.setAttribute('alt', '업로드 할 프로필');
+        imgElement.style.cssText = `
+          width: 100px;
+          height: 100px;
+        `;
+        parentElement.append(imgElement);
+      }
+    }}
+  />
+</div> */
+}
+{
+  /* 업로드 할 이미지 표시 */
+}
+{
+  /* <img
+    style={{marginBlockStart: 8}}
+    src="/profiles/proflie-04.jpg"
+    alt="업로드 할 프로필"
+    width={100}
+    height={100}
+  /> */
+}

@@ -1,4 +1,5 @@
 import { useId, type ComponentProps } from 'react';
+import FormRadioOrCheckbox from './form-radio-or-checkbox';
 
 // interface FormInputProps {
 //   type?:
@@ -45,8 +46,12 @@ import { useId, type ComponentProps } from 'react';
 type FormInputProps = ComponentProps<'input'> & {
   label: string;
 };
-function FormInput({ label, ...restProps }: FormInputProps) {
+function FormInput({ label, type, ...restProps }: FormInputProps) {
   const inputId = useId();
+
+  if (type === 'radio' || type === 'checkbox') {
+    return <FormRadioOrCheckbox label={label} type={type} {...restProps} />;
+  }
 
   return (
     <div className="formControl">
@@ -61,7 +66,7 @@ function FormInput({ label, ...restProps }: FormInputProps) {
         onChange={onChange}
         {...restProps}
       /> */}
-      <input id={inputId} {...restProps} />
+      <input type={type} id={inputId} {...restProps} />
     </div>
   );
 }
