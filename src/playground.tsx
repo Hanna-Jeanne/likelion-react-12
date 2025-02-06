@@ -1,21 +1,46 @@
 import { useState } from 'react';
-import SignUpForm from './playgrounds/03-signup-form';
-import SignInForm from './playgrounds/04-signin-form';
+import Nav from '@/homework/components/nav';
+import { getUIView } from '@/homework/lib/ui-view';
+import StateManagement from '@/homework/pages/state-management';
+import SignInForm from '@/homework/pages/sign-in';
+import SignUpForm from '@/homework/pages/sign-up';
+import TicTacToe from './homework/pages/tic-tac-toe';
+
+const getViewElement = (uiView: string) => {
+  let viewElement: React.ReactElement | null = null;
+
+  switch (uiView) {
+    case 'signin': {
+      viewElement = <SignInForm />;
+      break;
+    }
+    case 'signup': {
+      viewElement = <SignUpForm />;
+      break;
+    }
+    case 'state-management': {
+      viewElement = <StateManagement />;
+      break;
+    }
+    case 'tic-tac-toe': {
+      viewElement = <TicTacToe />;
+      break;
+    }
+  }
+
+  return viewElement;
+};
 
 function Playground() {
-  const [view, setView] = useState(false);
+  const [uiView] = useState<string>(getUIView);
+  const viewElement = getViewElement(uiView);
 
   return (
-    <div className="Playground">
+    <section className="Playground bg-euid-gray-200 wrapper">
       <h1>플레이그라운드</h1>
-      {/* <ReactForm /> */}
-
-      {view ? <SignInForm /> : <SignUpForm />}
-      <hr />
-      <button type="button" onClick={() => setView(!view)}>
-        {view ? '회원가입' : '로그인'} 페이지로 이동
-      </button>
-    </div>
+      <Nav />
+      {viewElement}
+    </section>
   );
 }
 

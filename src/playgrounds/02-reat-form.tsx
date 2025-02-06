@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import FormInput from '@/components/form-input';
+import FormInput from '@/components/form/form-input';
 
 const formStyles = {
   display: 'flex',
