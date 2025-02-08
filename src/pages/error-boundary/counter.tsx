@@ -31,7 +31,7 @@ function Counter({
   return (
     <div className={tm('flex flex-col gap-2 items-start')}>
       <output className={tm('font-semibold text-3xl text-react')}>
-        {count} {doubleCount}
+        {count} {doubleCounts}
       </output>
       <div className={tm('flex', '*:hover:bg-sky-800 *:cursor-pointer')}>
         <button
