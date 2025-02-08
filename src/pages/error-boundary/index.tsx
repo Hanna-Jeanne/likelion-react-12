@@ -1,4 +1,5 @@
 import { tm } from '@/utils/tw-merge';
+import Counter from './counter';
 
 function ErrorBoundaryDemo() {
   return (
@@ -9,6 +10,8 @@ function ErrorBoundaryDemo() {
         <br />
         오직 클래스 컴포넌트로만 구현 가능합니다.
       </p>
+
+      <Counter step={2} min={4} max={12} count={6} />
     </section>
   );
 }
