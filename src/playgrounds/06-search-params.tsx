@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import Nav from '@/homework/components/nav';
-import HomeworkSignInForm from '@/homework/pages/sign-in';
-import HomeworkSignUpForm from '@/homework/pages/sign-up';
+import HomeworkSignInForm from '@/pages/sign-in';
+import HomeworkSignUpForm from '@/pages/sign-up';
 
 // 리액트 외부 시스템 (부수적인 것: Side effects)
 // const getUIView = () => {
@@ -12,7 +12,7 @@ import HomeworkSignUpForm from '@/homework/pages/sign-up';
 // };
 // type UIView = 'signin' | 'signup';
 
-import { getUIView, type UIView } from '@/homework/lib/ui-view';
+import { getUIView, type UIView } from '@/lib/ui-view';
 
 function Playground() {
   const [uiView] = useState<UIView>(getUIView);

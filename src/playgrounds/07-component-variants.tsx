@@ -1,10 +1,9 @@
 import { useState } from 'react';
-
 import Nav from '@/homework/components/nav';
-import HomeworkSignInForm from '@/homework/pages/sign-in';
-import HomeworkSignUpForm from '@/homework/pages/sign-up';
-import { getUIView, type UIView } from '@/homework/lib/ui-view';
-import DS_Button from '@/design-system/button';
+import HomeworkSignInForm from '@/pages/sign-in';
+import HomeworkSignUpForm from '@/pages/sign-up';
+import { getUIView, type UIView } from '@/lib/ui-view';
+import DS_Button from '@/@design-system/button';
 
 function Playground() {
   const [uiView] = useState<UIView>(getUIView);
