@@ -6,6 +6,7 @@ interface CounterProps {
   min?: number;
   max?: number;
 }
+
 function Counter({
   count: initialCount = 0,
   step = 1,
@@ -14,8 +15,10 @@ function Counter({
 }: CounterProps) {
   // [상태: derived state from props]
   const [count, setCount] = useState(initialCount);
+
   // [파생된 상태: derived state form state]
   const doubleCount = count * 2;
+
   // [이벤트 핸들러: event handlers]
   const handleDecrease = () => {
     const nextCount = count - step;
@@ -27,11 +30,12 @@ function Counter({
     if (nextCount > max) return;
     setCount(nextCount);
   };
+
   // [렌더]
   return (
     <div className={tm('flex flex-col gap-2 items-start')}>
       <output className={tm('font-semibold text-3xl text-react')}>
-        {count} {doubleCounts}
+        {count} {doubleCount}
       </output>
       <div className={tm('flex', '*:hover:bg-sky-800 *:cursor-pointer')}>
         <button
