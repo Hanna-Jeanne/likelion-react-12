@@ -19,8 +19,10 @@ function ErrorBoundaryDemo() {
     </section>
   );
 }
+
 export default ErrorBoundaryDemo;
 
+// 사용자 정의 오류 경계 대체 컴포넌트
 function Fallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
     <div role="alert">
