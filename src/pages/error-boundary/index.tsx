@@ -1,6 +1,7 @@
-import ErrorBoundary from '@/components/error-boundary';
-import { tm } from '@/utils/tw-merge';
 import Wrapper from './wrapper';
+import { tm } from '@/utils/tw-merge';
+import ErrorBoundary from '@/components/error-boundary';
+import ErrorDisplay from './user-defined-fallback-ui';
 
 function ErrorBoundaryDemo() {
   return (
@@ -12,9 +13,8 @@ function ErrorBoundaryDemo() {
         오직 클래스 컴포넌트로만 구현 가능합니다.
       </p>
 
-      <Counter step={2} min={4} max={12} count={6} />
       {/* 오류 발생 가능성이 있는 컴포넌트 집합 */}
-      <ErrorBoundary>
+      <ErrorBoundary FallbackComponent={ErrorDisplay}>
         <Wrapper />
       </ErrorBoundary>
     </section>
